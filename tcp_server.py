@@ -1,0 +1,41 @@
+import socket
+import threading
+
+bind_ip = "0.0.0.0"
+bind_port = 9999
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Start listening on address bind_ip at bind_port
+server.bind((bind_ip, bind_port))
+
+# Tell server to listen with a maximum backlog of connections set to 5
+server.listen(5)
+
+print("[*] Listening on %s:%d" % (bind_ip, bind_port))
+
+# This is our client-handling thread
+def handle_clien(client_socket):
+    
+    # Print what client sends
+    request = client_socket.recv(1024)
+    
+    print("[*] Received: %s" % request)
+    
+    # Send back a packet
+    client_socket.send("ACK!")
+    
+    client_socket.close()
+    
+while True:
+    
+    client,addr = server.accept()
+    
+    print("[*] Accepted connection from: %s:%d" % (addr[0], addr[1]))
+    
+    # Spin up our client thread to handle incoming data
+    client_handler = threading.Thread(target=handle_client,args=(client,))
+    client_handler.start()
+
+
+
