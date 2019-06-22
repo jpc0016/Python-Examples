@@ -15,7 +15,7 @@ server.listen(5)
 print("[*] Listening on %s:%d" % (bind_ip, bind_port))
 
 # This is our client-handling thread
-def handle_clien(client_socket):
+def handle_client(client_socket):
     
     # Print what client sends
     request = client_socket.recv(1024)
