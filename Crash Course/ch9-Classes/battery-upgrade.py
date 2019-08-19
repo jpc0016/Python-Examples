@@ -1,10 +1,9 @@
-# CH9 Example
+# CH9 Exercise 9-9
 #
-# electric-car.py
+# battery-upgrade.py
 #
-# Demonstration of a child class.  A child class inherits attributes from the
-# parent class.  The parent class must be within the same file as the child
-# class and appear before it.
+# Add method to Battery() called upgrade_battery().  It should check size and
+# set capacity to 85 if not done already.
 class Car():
     """A simple attempt to represent a car"""
 
@@ -42,6 +41,38 @@ class Car():
         """Print statement about filling gas tank"""
         print("Filling gas now.")
 
+
+
+# New Battery class that does not inherit from any class
+class Battery():
+    """Simple class to model the battery for an electric car"""
+
+    def __init__(self, battery_size=70):
+        """Initialize Battery attributes"""
+        self.battery_size = battery_size
+
+    def describe_battery(self):
+        """Print statement describing battery size"""
+        print("This car has a " + str(self.battery_size) + "-kWh battery.")
+
+    def get_range(self):
+        """Prints a statement about range based on battery size"""
+        if self.battery_size == 70:
+            range = 240
+        elif self.battery_size == 85:
+            range = 270
+
+        message = "This car can go approximately " + str(range)
+        message += " miles on a full charge."
+
+        print(message)
+
+    def upgrade_battery(self):
+        """Check battery size and change it to 85 if not already done"""
+        if self.battery_size == 70:
+            self.battery_size = 85
+
+
 # Pass parent class 'Car' into the child class.
 class ElectricCar(Car):
     """Represents aspects of a car, specific to electric vehicles"""
@@ -56,12 +87,10 @@ class ElectricCar(Car):
         # inheritance. Only difference is: super(ElectricCar, self).
         super().__init__(make, model, year)
 
-        # Initialize attributes specific to ElectricCar
-        self.battery_size = 70
+        # Initialize battery attribute using the Battery class
+        self.battery = Battery()
 
-    def describe_battery(self):
-        """Print statement describing battery size"""
-        print("This car has a " + str(self.battery_size) + "-kWh battery.")
+
 
     # This method overrides the one in the parent class because it has the same
     # name.  Python will ignore Car.fill_gas_tank() and run this method instead.
@@ -74,6 +103,9 @@ class ElectricCar(Car):
 tesla = ElectricCar('tesla', 'model s', 2016)
 print(tesla.get_descriptive_name())
 
-# Test new ElectricCar method
-tesla.describe_battery()
-tesla.fill_gas_tank()
+# Show current battery
+tesla.battery.describe_battery()
+
+# Upgrade the battery and show results
+tesla.battery.upgrade_battery()
+tesla.battery.describe_battery()
