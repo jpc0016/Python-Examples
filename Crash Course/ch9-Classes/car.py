@@ -1,9 +1,4 @@
-# CH9 Example
-#
-# car.py
-#
-# Modifying attributes of a class instance.
-# New Car class that stores make, model, and year.
+"""Set of classes used to represent gas and electric cars"""
 class Car():
     """A simple attempt to represent a car"""
 
@@ -37,34 +32,55 @@ class Car():
         """Add miles to the current odometer reading"""
         self.odometer_reading += miles
 
+# New Battery class that does not inherit from any class
+class Battery():
+    """Simple class to model the battery for an electric car"""
+
+    def __init__(self, battery_size=70):
+        """Initialize Battery attributes"""
+        self.battery_size = battery_size
+
+    def describe_battery(self):
+        """Print statement describing battery size"""
+        print("This car has a " + str(self.battery_size) + "-kWh battery.")
+
+    # New method exclusive to Battery() class
+    def get_range(self):
+        """Prints a statement about range based on battery size"""
+        if self.battery_size == 70:
+            range = 240
+        elif self.battery_size == 85:
+            range = 270
+
+        message = "This car can go approximately " + str(range)
+        message += " miles on a full charge."
+
+        print(message)
 
 
 
 
-my_new_car = Car('chevy', 'silverado', 2019)
-print(my_new_car.get_descriptive_name())
-my_new_car.read_odometer()
-print(" ")
+# Pass parent class 'Car' into the child class.
+class ElectricCar(Car):
+    """Represents aspects of a car, specific to electric vehicles"""
 
-# Can modify an attribute directly through an instance
-my_new_car.odometer_reading = 23
-my_new_car.read_odometer()
-print(" ")
+    # Still have an __init__() method in child class with same parameters as
+    # parent class __init__()
+    def __init__(self, make, model, year):
+        """Initialize attributes of the parent class"""
+        # Special function that helps Python make connections between parent and
+        # child class.  Super() comes from calling parent class a 'superclass' and
+        # child class a 'subclass'.  Note: Python2.7 has slightly different
+        # inheritance. Only difference is: super(ElectricCar, self).
+        super().__init__(make, model, year)
 
-# Can modify an attribute using a method
-my_new_car.update_odometer(46)
-my_new_car.read_odometer()
-print(" ")
+        # Initialize battery attribute using the Battery class
+        self.battery = Battery()
 
-# This call prints the error message in update_odometer()
-my_new_car.update_odometer(21)
 
-# Can increment an attribute through a method
-my_used_car = Car('subaru', 'outback', 2015)
-print(my_used_car.get_descriptive_name())
 
-my_used_car.increment_odometer(23500)
-my_used_car.read_odometer()
-
-my_used_car.increment_odometer(100)
-my_used_car.read_odometer()
+    # This method overrides the one in the parent class because it has the same
+    # name.  Python will ignore Car.fill_gas_tank() and run this method instead.
+    def fill_gas_tank(self):
+        """Electric vehicles don't have gas tanks."""
+        print("This car doesn't need a gas tank!")

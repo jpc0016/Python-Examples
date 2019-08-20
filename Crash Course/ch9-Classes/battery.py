@@ -60,7 +60,7 @@ class Battery():
         """Prints a statement about range based on battery size"""
         if self.battery_size == 70:
             range = 240
-        elif self.battery_size = 85:
+        elif self.battery_size == 85:
             range = 270
 
         message = "This car can go approximately " + str(range)
