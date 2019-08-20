@@ -1,0 +1,2 @@
+This is a text file for Exercise 10-1.  I learned how to open a file using
+"with open() as f"

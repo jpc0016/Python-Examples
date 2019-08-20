@@ -10,7 +10,7 @@ with open(filename) as file_object:
 
 pi_string = ''
 for line in lines:
-    pi_string += line.rstrip()
+    pi_string += line.strip()
 
 print(pi_string)
 print("PI Length: " + str(len(pi_string)))
