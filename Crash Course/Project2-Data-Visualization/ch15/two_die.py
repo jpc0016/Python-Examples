@@ -1,25 +1,25 @@
-# CH15 Example
+# CH15 Exercise 15-7
 #
-# die_visual.py
+# two_die.py
 #
-# Introduction to Pygal
-# Import die.py Die() class to analyze and plot die rolls
+# Simulate running two 8-sided die 1,000 times.  Increase the number of rolls
+# until a limit is reached.  9 is consistent max result.
 from die import Die
 import pygal
 
-# Create a D12 and D20 die
-die_1 = Die(12)
-die_2 = Die(20)
+# Create two D8 die
+die_1 = Die(8)
+die_2 = Die(8)
 
 # Make some rolls
 results = []
-for roll_num in range(100000):
+for roll_num in range(1000):
     result = die_1.roll() + die_2.roll()
     results.append(result)
 
 # Analyze frequencies
-# loop through each number from 1 to num_sides.  Loop will stop executing at die.num_sides
-# so the range limit must be die.num_sides+1
+# loop through each number from 1 to max_result of sides.  Loop will stop
+# executing at die.num_sides so the range limit must be die.num_sides+1
 frequencies = []
 max_result = die_1.num_sides + die_2.num_sides
 label = []
@@ -34,16 +34,14 @@ for value in range(2, max_result+1):
 # Create histogram using Pygal
 hist = pygal.Bar()
 
-# hist.title = "Results of rolling two D6 50000 times."
-# Exercise 15-6: replace hist.x_labels to generate the labels automatically
-hist.title = "Results of rolling one D12 and one D20 50,000 times."
+# hist.title = "Results of rolling two D8 1,000 times."
+hist.title = "Results of rolling two D8 1,000 times."
 hist.x_labels = label
 hist.x_title = 'Result'
 hist.y_title = 'Frequency of Result'
 
-# Open die_visual.svg in a web browser
-hist.add('D12 + D20', frequencies)
-hist.render_to_file('die_visual.svg')
+hist.add('D8 + D8', frequencies)
+hist.render_to_file('two_die.svg')
 
 
 

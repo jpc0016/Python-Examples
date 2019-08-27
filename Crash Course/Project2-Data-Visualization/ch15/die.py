@@ -16,3 +16,7 @@ class Die():
     def roll(self):
         """return a random value between 1 and num_sides"""
         return randint(1, self.num_sides)
+
+    # def generate_label(self):
+    #     """Create label for hist.x_label based on maximum result"""
+    #
