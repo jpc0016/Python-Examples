@@ -41,7 +41,7 @@ with open(filename) as f:
             lows.append(low)
 
 
-    #print(highs)
+    #print(dates)
 
     # Plot data points in a temperature chart (normal line chart)
     # plt.figure() customizes the plot figure instead of using default
