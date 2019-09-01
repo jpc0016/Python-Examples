@@ -9,7 +9,6 @@
 #
 # Demonstrate the Vigenere cipher on an input string and display its output.
 # Program must encrypt and decrypt strings of variable length
-#import pyperclip
 
 # Initialize character key to be used in encryption and decryption
 character_key = {
@@ -47,8 +46,11 @@ plaintext = input("Enter the plaintext string to encrypt: ")
 vigenere = input("Enter the vigenere key: ")
 # 'dog'
 
-##### CURRENTLY ONLY WORKS FOR STRINGS OF SAME SIZE #####
-#### WORKING ON ENCRYPTING OVER VARIABLE KEY LENGTHS ####
+print("\n####################################")
+print("\nEntered Plaintext: " + plaintext)
+print("\n####################################")
+
+#### VALIDATED TO WORK OVER VARIABLE KEY LENGTHS ####
 def encrypt(plaintext, vigenere):
     """
     Encrypts plaintext using a vigenere key. Each character of the alphabet
@@ -134,7 +136,7 @@ def encrypt(plaintext, vigenere):
     return encrypted
 
 
-##### CURRENTLY ONLY WORKS FOR STRINGS OF SAME SIZE #####
+#### VALIDATED TO WORK OVER VARIABLE KEY LENGTHS ####
 def decrypt(ciphertext, vigenere):
     """
     Decrypt the ciphertext by executing the encryption function backwards
