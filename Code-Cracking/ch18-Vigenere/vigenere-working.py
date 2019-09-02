@@ -4,8 +4,11 @@
 #
 # v1.0
 #
-# Both encrypt() and decrypt() functions work on strings of same size.
-# Current file aiming on variable length keys
+# Both encrypt() and decrypt() functions work on strings of variable size.
+# Current file aiming removing spaces from paintext and key
+#
+# Regex to remove spaces:
+# https://stackoverflow.com/questions/43216253/how-can-i-make-my-vigen%C3%A8re-cipher-handle-spaces-in-the-message 
 #
 # Demonstrate the Vigenere cipher on an input string and display its output.
 # Program must encrypt and decrypt strings of variable length

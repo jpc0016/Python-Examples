@@ -40,7 +40,23 @@ character_key = {
             'Z': 25,
 }
 
-# Retreive the ciphertext
-
+# Prompt for ciphertext
 ciphertext = input("Enter the ciphertext: ")
-period = input("Enter period of the Vigenere key: ")
+
+# Prompt for period and check for correct type.  If incorrect type, continue
+# to beginning of while loop.  If correct type, break loop.
+while True:
+    try:
+        input_period = input("Enter period of the Vigenere key: ")
+        period = int(input_period)
+    except ValueError:
+        print("Period must be an integer!")
+        continue
+    else:
+        break
+
+print("Entered ciphertext: " + ciphertext)
+print("Period: " + str(period))
+
+# Analyze ciphertext given the period of a key. Period is the key length
+# Split ciphertext into strings of key length
