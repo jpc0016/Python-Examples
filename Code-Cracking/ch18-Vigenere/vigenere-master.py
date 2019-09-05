@@ -5,48 +5,20 @@
 # v1.0
 #
 # Both encrypt() and decrypt() functions work on strings of variable size.
-# Current file aiming removing spaces from paintext and key
-#
-# Regex to remove spaces:
-# https://stackoverflow.com/questions/43216253/how-can-i-make-my-vigen%C3%A8re-cipher-handle-spaces-in-the-message
+# Troubleshooting output remains in the code.  Should it be removed?
 #
 # Demonstrate the Vigenere cipher on an input string and display its output.
 # Program must encrypt and decrypt strings of variable length
 
-# Initialize character key to be used in encryption and decryption
-character_key = {
-            'A': 0,
-            'B': 1,
-            'C': 2,
-            'D': 3,
-            'E': 4,
-            'F': 5,
-            'G': 6,
-            'H': 7,
-            'I': 8,
-            'J': 9,
-            'K': 10,
-            'L': 11,
-            'M': 12,
-            'N': 13,
-            'O': 14,
-            'P': 15,
-            'Q': 16,
-            'R': 17,
-            'S': 18,
-            'T': 19,
-            'U': 20,
-            'V': 21,
-            'W': 22,
-            'X': 23,
-            'Y': 24,
-            'Z': 25,
-}
+# Initialize character key dictionary to be used in encryption and decryption
+character_key = {'A': 0, 'B': 1,'C': 2,'D': 3,'E': 4,'F': 5,'G': 6,'H': 7,'I': 8,'J': 9,'K': 10,'L': 11,'M': 12,'N': 13,'O': 14,'P': 15,'Q': 16,'R': 17,'S': 18,'T': 19,'U': 20,'V': 21,'W': 22,'X': 23,'Y': 24,'Z': 25,}
 
-# Read input string and vigenere keyplaintext
+# Read input string and vigenere keyplaintext and remove spaces
 plaintext = input("Enter the plaintext string to encrypt: ")
+plaintext = plaintext.replace(" ", "")
 # 'hello'
 vigenere = input("Enter the vigenere key: ")
+vigenere = vigenere.replace(" ", "")
 # 'dog'
 
 print("\n####################################")
