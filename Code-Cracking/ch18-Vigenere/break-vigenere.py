@@ -10,6 +10,9 @@
 # According to Dr. Zhu, period (size of vigenere key) is given?????  Need to
 # confirm
 
+# Follow steps here:
+# https://artofproblemsolving.com/community/c1671h1005767_cracking_the_vigenere_cipher_knowing_the_keyword_length
+
 # Initialize character key to be used in encryption and decryption
 character_key = {
             'A': 0,
@@ -57,6 +60,23 @@ while True:
 
 print("Entered ciphertext: " + ciphertext)
 print("Period: " + str(period))
+print(" ")
 
 # Analyze ciphertext given the period of a key. Period is the key length
-# Split ciphertext into strings of key length
+# Split ciphertext into strings of key index.  There will be n number of groups
+# where n is the period.  For a key length 3, there should be 3 groups of
+# 1 mod(3), 2 mod(3), and 3 mod(3)
+
+# Create the groups
+groups = [[] for i in range(1, period)]
+
+for num in range(1, period):
+    print("\nGroup " + str(period) + ":")
+    print(groups[period])
+# iterate characters over ciphertext [GOOD]
+# for char in ciphertext:
+#     print(char)
+
+# for number in range(1, period):
+# for index, number in enumerate(ciphertext):
+#     if index % period == 0:
