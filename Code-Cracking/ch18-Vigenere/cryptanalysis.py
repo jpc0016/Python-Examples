@@ -1,31 +1,25 @@
 # CH20 Example
 #
-# break-vigenere.py
+# cryptanalysis.py
 #
-# v0.1 Draft
+# v1.0 Draft
 #
 # Crack a ciphertext encrypted with the Vigenere cipher.  Program must detect
 # patterns within the ciphertext
-#
-# Follow steps here:
-# https://artofproblemsolving.com/community/c1671h1005767_cracking_the_vigenere_cipher_knowing_the_keyword_length
-#
-# And here:
-# https://www.youtube.com/watch?v=LaWp_Kq0cKs
 
 from collections import OrderedDict
-
+from itertools import islice, cycle
 
 # Initialize character key dictionary to be used in encryption and decryption
-# Old character key just in case
-#character_key = {'A': 0, 'B': 1,'C': 2,'D': 3,'E': 4,'F': 5,'G': 6,'H': 7,'I': 8,'J': 9,'K': 10,'L': 11,'M': 12,'N': 13,'O': 14,'P': 15,'Q': 16,'R': 17,'S': 18,'T': 19,'U': 20,'V': 21,'W': 22,'X': 23,'Y': 24,'Z': 25,}
 character_key = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J', 10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O', 15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X', 24: 'Y', 25: 'Z'}
 
-
 """
-Test with cipherText: 'SECGLEYWAMNRJUOTBXLEGGMRQFIHJZCIWLPNFWYETBFGLAYYWTXYGHENLMBRVXZRFLYGAFMGMGHRVBGRSGSBMMUYCTVBMMKHAVESWXNGZTNFSECGLEYQSGWRSGXTGWUAUXUAVZIGAFMHHAYEWZLNTUCAYFYGJRCAYMIQGLIZWWUAUXGBNXMGGBGVLTNRKXSZGNL'
+Test with cipherText:
+'SECGLEYWAMNRJUOTBXLEGGMRQFIHJZCIWLPNFWYETBFGLAYYWTXYGHENLMBRVXZRFLYGAFMGMGHRVBGRSGSBMMUYCTVBMMKHAVESWXNGZTNFSECGLEYQSGWRSGXTGWUAUXUAVZIGAFMHHAYEWZLNTUCAYFYGJRCAYMIQGLIZWWUAUXGBNXMGGBGVLTNRKXSZGNL'
 
-Plaintext: 'a little jitterbug jerron seymour gives vanderbilt the lead look at the defense tim stunned i mean you talk about quick feet thats a little dance and go dance and go tims up here grabbing me trying to do some dance moves to imitate seymour'
+Plaintext:
+'a little jitterbug jerron seymour gives vanderbilt the lead look at the defense tim stunned i mean you talk about quick feet thats a little dance and go dance and go tims up here grabbing me trying to do some dance moves to imitate seymour'
+
 Key: 'stun'
 """
 
@@ -44,20 +38,15 @@ while True:
     else:
         break
 
-# Troubleshooting print statements
-print("Entered ciphertext: " + cipherText)
-print("Period: " + str(period))
-print(" ")
-
 # Analyze cipherText given the period of a key. Period is the key length
 # Split cipherText into strings of key index.  There will be n number of groups
-# where n is the period.  For a key length 3, there should be 3 groups of
-# 1 mod(3), 2 mod(3), and 3 mod(3).  groups is the list that holds each group
-# of strings.
+# where n is the period.  For a key length 4, there should be 3 groups of
+# 1 mod(4), 2 mod(4), 3 mod(4), and 3 mod(4).
+# groups is the list that holds each group of strings.
 groups = []
 
-##### GOOD #####value
-# for each character in range 3, step over the string at an offset 'period'
+# String splicing loop
+# Value for each character in range 4, step over the string at an offset 'period'
 for i in range(0, period):
     groups.append(cipherText[i: len(cipherText): period])
 
@@ -66,11 +55,17 @@ for j in range(0, period):
     print(groups[j])
 print(" ")
 
-##### WORKING #####
-# Now have 3 groups of indexed characters.
+# Custom dictionary shift function to move left each value to the adjacent key
+def shift_dict(dict, shift):
+    shift %= len(dict)
+    return OrderedDict(
+        (k, v)
+        for k, v in zip(dict.keys(), islice(cycle(dict.values()), shift, None))
+    )
+
+
 # Create frequency analysis function.  Send each group through function as
-# input. May need to create a seperate file and import it since it could
-# get very large
+# input.
 def frequency_analysis(text, totalCharacters):
     """
     Count number of times a letter appears in the cipherText. This function returns
@@ -93,7 +88,6 @@ def frequency_analysis(text, totalCharacters):
     # Troubleshooting prints
     print("Current letterCount: ")
     print(letterCount)
-    print("\ntotalCharacters: " + str(totalCharacters))
 
     # Find letter frequency from letterCount.  Divide each letter by [GOOD]
     # total number of letters.  Round to 4 decimal places
@@ -115,27 +109,54 @@ def frequency_analysis(text, totalCharacters):
     # them all up.  Repeat this 26 times after shifting each entry of letterFrequency.
     # Run initial test of sum without any shifting  [INITIAL TEST IS GOOD]
     ####################
-    # WORKING ON SHIFTING DICTIONARY LEFT IN A LOOP 26 TIMES.  THIS WILL BE HANDLED IN AN OUTER LOOP FOR RANGE(0, 25).  WHERE DOES THE SUM OF EACH DICTIONARY ROTATION GET STORED?  SOME LIST?
+    # WORKING ON SHIFTING DICTIONARY LEFT IN A LOOP 26 TIMES.  THIS WILL BE
+    # HANDLED IN AN OUTER LOOP FOR RANGE(0, 25).  SUM OF EACH DICTIONARY
+    # ROTATION IS STORED IN all_sums
     ####################
-    sum = 0
-    for key, value in letterFrequency.items():
-        print("\nenglishFrequency[" + str(key) + "]: " + str(englishFrequency[key]))
-        print("value: " + str(value))
-        print("Pre-Sum: " + str(sum))
-        sum += englishFrequency[key] * value # 0.080 * 0
-        print("Post-Sum: " + str(sum))
+    for number in range(0,26):
 
-    #print("\nFirst round sum: " + str(sum))
-    all_sums.append(sum)
-    for i in range(0,len(all_sums)):
-        print(all_sums[i])
+        sum = 0
+        for key, value in letterFrequency.items():
+            # print("\nenglishFrequency[" + str(key) + "]: " + str(englishFrequency[key]))
+            # print("value: " + str(value))
+            # print("Pre-Sum: " + str(sum))
+            sum += englishFrequency[key] * value # 0.080 * 0
+            # print("Post-Sum: " + str(sum))
 
-    return letterFrequency
+        # Add to list of sums
+        all_sums.append(sum)
+
+        # Shift letterFrequency dictionary by 1
+        letterFrequency = shift_dict(letterFrequency, 1)
+
+    return all_sums
 
 
-counts = frequency_analysis(groups[0], len(groups[0]))
-# print(counts)
+recovered_key = []
+
+# Implement all steps for each key character.  Loop from 0 to period
+for num in range(0, period):
+
+    counts = frequency_analysis(groups[num], len(groups[num]))
+
+    print("\nLargest sum: " + str(max(counts)))
+    print(" ")
+
+    # Function frequency_analysis() works!!!  Now need to find largest value in list and return it's position.
+    # This position will be used in character_key[key] to return plaintext character.
+    # Check if correct index returned: 18
+    print("Index of largest sum: " + str(counts.index(max(counts))))
+
+    # should be 'S'
+    print(character_key[counts.index(max(counts))])
+    recovered_key.append(character_key[counts.index(max(counts))])
+
+
+key = ''.join(recovered_key)
+print(key)
+
 
 # may need to call decrypt() function in vigenere-master and pass cipherText and
-# most likely key.  Will need to import it: from vigenere import decrypt
+# most likely keys.  This would be done to brute force each possible key. Will need
+# to import it: from vigenere import decrypt
 # decrypt(cipherText, key)
