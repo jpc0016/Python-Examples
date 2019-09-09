@@ -1,6 +1,6 @@
 # John Cox
 # CS 585 - Project 1
-# vigenere-master.py
+# vigenere.py
 #
 # v1.0 rev Draft
 #

@@ -60,3 +60,5 @@ Your score on this assignment will include consideration of the correctness of y
 * Screenshots of test cases.  Word document?
 
 * Place troubleshooting scripts in their own directory
+
+* Continue comment cleanup
