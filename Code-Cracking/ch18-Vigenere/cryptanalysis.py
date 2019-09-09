@@ -1,8 +1,8 @@
-# CH20 Example
-#
+# John Cox
+# CS 585 - Project 1
 # cryptanalysis.py
 #
-# v1.0 Draft
+# v1.0 rev Draft
 #
 # Crack a ciphertext encrypted with the Vigenere cipher.  Program must detect
 # patterns within the ciphertext
@@ -51,6 +51,7 @@ for i in range(0, period):
     groups.append(cipherText[i: len(cipherText): period])
 
 # Troubleshooting print statements [GOOD]
+print(" ")
 for j in range(0, period):
     print(groups[j])
 print(" ")
@@ -64,41 +65,41 @@ def shift_dict(dict, shift):
     )
 
 
-# Create frequency analysis function.  Send each group through function as
-# input.
+# Create frequency analysis function.  Send each group of text through
+# function as input. Returns a list of 26 sums for each letter position in
+# the alphabet. Each letter frequency in the group string is multiplied by the
+# corresponding position of englishFrequency.
+#
+# Example:
+# For unshifted dictionary, suppose it is OrderedDict([('A', 0.0), ('B', 0.0789), ('C', 0.0)])
+# and englishFrequency is static: englishFrequency = {'A': 0.080, 'B': 0.015, 'C': 0.030}
+#
+# then sum = (0.0 * 0.080) + (0.0789 * 0.015) + (0.0 * 0.030)
+#
+# The ordered dictionary is shifted in the next step:
+# OrderedDict([('B', 0.0789), ('C', 0.0), ('A', 0.0)])
 def frequency_analysis(text, totalCharacters):
     """
-    Count number of times a letter appears in the cipherText. This function returns
-    the most likely shift value for the key at a given index. The shift value
-    corresponds to a letter in character_key
+    Count number of times a letter appears in the cipherText. This function
+    returns the most likely shift value for the key at a given index. The
+    shift value corresponds to a letter in character_key
     """
     # Initialize frequency count
     letterCount = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0, 'G': 0, 'H': 0, 'I': 0, 'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0, 'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0}
 
-    # Dictionary of English letters by frequency. 'E' is most common. 'Z' is most
-    # uncommon.  Try letter strings instead of numbers
+    # Static dictionary of English letters by frequency. 'E' is most common. 'Z' is most
+    # uncommon.
     englishFrequency = {'A': 0.080, 'B': 0.015, 'C': 0.030, 'D': 0.040, 'E': 0.130, 'F': 0.020, 'G': 0.015, 'H': 0.060, 'I': 0.065, 'J': 0.005, 'K': 0.005, 'L': 0.035, 'M': 0.030, 'N': 0.070, 'O': 0.080, 'P': 0.020, 'Q': 0.002, 'R': 0.065, 'S': 0.060, 'T': 0.090, 'U': 0.030, 'V': 0.010, 'W': 0.015, 'X': 0.005, 'Y': 0.020, 'Z': 0.002}
-    # Old table
-    # englishFrequency = {0: 0.080, 1: 0.015, 2: 0.030, 3: 0.040, 4: 0.130, 5: 0.020, 6: 0.015, 7: 0.060, 8: 0.065, 9: 0.005, 10: 0.005, 11: 0.035, 12: 0.030, 13: 0.070, 14: 0.080, 15: 0.020, 16: 0.002, 17: 0.065, 18: 0.060, 19: 0.090, 20: 0.030, 21: 0.010, 22: 0.015, 23: 0.005, 24: 0.020, 25: 0.002}
 
-    # Count letters in cipherText group [GOOD]
+    # Count letters in cipherText group
     for char in text:
         letterCount[char.upper()] += 1
 
-    # Troubleshooting prints
-    print("Current letterCount: ")
-    print(letterCount)
-
-    # Find letter frequency from letterCount.  Divide each letter by [GOOD]
+    # Find letter frequency from letterCount.  Divide each letter by
     # total number of letters.  Round to 4 decimal places
     letterFrequency = OrderedDict()
     for key, value in letterCount.items():
         letterFrequency[key] = round((value/totalCharacters), 4)
-
-    # Troubleshooting prints
-    print("\nletterFrequency: ")
-    print(letterFrequency)
-    print(" ")
 
     # letterFrequency:
     # OrderedDict([('A', 0.0), ('B', 0.0789), ('C', 0.0), ('D', 0.0526), ('E', 0.0526), ('F', 0.0263), ('G', 0.0263), ('H', 0.1053), ('I', 0.0), ('J', 0.0263), ('K', 0.1053), ('L', 0.0789), ('M', 0.0),
@@ -117,11 +118,7 @@ def frequency_analysis(text, totalCharacters):
 
         sum = 0
         for key, value in letterFrequency.items():
-            # print("\nenglishFrequency[" + str(key) + "]: " + str(englishFrequency[key]))
-            # print("value: " + str(value))
-            # print("Pre-Sum: " + str(sum))
-            sum += englishFrequency[key] * value # 0.080 * 0
-            # print("Post-Sum: " + str(sum))
+            sum += englishFrequency[key] * value
 
         # Add to list of sums
         all_sums.append(sum)
@@ -138,22 +135,11 @@ recovered_key = []
 for num in range(0, period):
 
     counts = frequency_analysis(groups[num], len(groups[num]))
-
-    print("\nLargest sum: " + str(max(counts)))
-    print(" ")
-
-    # Function frequency_analysis() works!!!  Now need to find largest value in list and return it's position.
-    # This position will be used in character_key[key] to return plaintext character.
-    # Check if correct index returned: 18
-    print("Index of largest sum: " + str(counts.index(max(counts))))
-
-    # should be 'S'
-    print(character_key[counts.index(max(counts))])
     recovered_key.append(character_key[counts.index(max(counts))])
 
 
 key = ''.join(recovered_key)
-print(key)
+print("Recovered Key: " + key)
 
 
 # may need to call decrypt() function in vigenere-master and pass cipherText and

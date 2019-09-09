@@ -1,11 +1,8 @@
-# CH18 Example
-#
+# John Cox
+# CS 585 - Project 1
 # vigenere-master.py
 #
-# v1.0
-#
-# Both encrypt() and decrypt() functions work on strings of variable size.
-# Troubleshooting output remains in the code.  Should it be removed?
+# v1.0 rev Draft
 #
 # Demonstrate the Vigenere cipher on an input string and display its output.
 # Program must encrypt and decrypt strings of variable length
@@ -16,10 +13,10 @@ character_key = {'A': 0, 'B': 1,'C': 2,'D': 3,'E': 4,'F': 5,'G': 6,'H': 7,'I': 8
 # Read input string and vigenere keyplaintext and remove spaces
 plaintext = input("Enter the plaintext string to encrypt: ")
 plaintext = plaintext.replace(" ", "")
-# 'hello'
+
 vigenere = input("Enter the vigenere key: ")
 vigenere = vigenere.replace(" ", "")
-# 'dog'
+
 
 print("\n####################################")
 print("\nEntered Plaintext: " + plaintext)
@@ -46,14 +43,6 @@ def encrypt(plaintext, vigenere):
         vigenere_key = character_key[item.upper()]
         vigenere_keys.append(vigenere_key)
 
-    # Troubleshooting:
-    # Show enumerated plaintext and key
-    print("\nEnumerated Plaintext")
-    print(plain_keys)
-    # [7, 4, 11, 11, 14]
-    print("\nEnumerated Key")
-    print(vigenere_keys)
-    # [3, 14, 6]
 
     len_plain = len(plain_keys)
     # 5
@@ -76,25 +65,16 @@ def encrypt(plaintext, vigenere):
                 else:
                     vigenere_keys.append(vigenere_keys[j])
 
-    # If plain_keys < vigenere_keys, stop encryption at end of plain_keys
-    # Entire program works if above condition is met
-    print("\nPadded Vigenere Key: ")
-    print(vigenere_keys)
-
 
     # Add the elements of each array together and mod 26.  If len(vigenere) is
     # less than len(plaintext), restart at begining of key.  If len(vigenere)
     # is greater than len(plaintext), stop at end of plaintext
     # Result is encrypted_numbers list
-
     encrypted_numbers = []
     for i in range(0, len(plain_keys)):
         new = (plain_keys[i] + vigenere_keys[i]) % 26
         encrypted_numbers.append(new)
 
-    print("\nEnumerated Plaintext + Key")
-    print(encrypted_numbers)
-    # [22, 12, 10, 10, 14]
 
     # Convert enumerated plaintext + key into ciphertext string. Initialize
     # empty string
@@ -103,8 +83,6 @@ def encrypt(plaintext, vigenere):
         # for 22
         for key, value in character_key.items():
             # for 'A':0 , 'B':1, ...
-            # print(key) # A
-            # print(value) # 0
             if value == number:
                 # if 0 = 22
                 encrypted += key
@@ -152,19 +130,6 @@ def decrypt(ciphertext, vigenere):
                 else:
                     vigenere_keys.append(vigenere_keys[j])
 
-    # If cipher_keys < vigenere_keys, stop encryption at end of plain_keys
-    # Entire program works if above condition is met
-    print("\nPadded Vigenere Key: ")
-    print(vigenere_keys)
-
-    # # Troubleshooting:
-    # # Show cipher keys [GOOD]
-    # print("\nCipher Keys:")
-    # print(cipher_keys)
-    #
-    # # Show vigenere keys [GOOD]
-    # print("\nVigenere Keys:")
-    # print(vigenere_keys)
 
     # Subtract the elements of each array and mod 26
     # Result is decrypted_numbers list

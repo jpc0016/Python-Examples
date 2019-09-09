@@ -1,5 +1,5 @@
-# CH20 Example
-#
+# John Cox
+# CS 585 - Project 1
 # cryptanalysis-troubleshoot.py
 #
 # v1.0 Draft
@@ -7,7 +7,7 @@
 # Crack a ciphertext encrypted with the Vigenere cipher.  Program must detect
 # patterns within the ciphertext.
 #
-# This is identical to cryptanalysis.py only with more comments and troubleshooting
+# This script is identical to cryptanalysis.py only with more comments and troubleshooting
 # print statements
 #
 # Follow steps here:

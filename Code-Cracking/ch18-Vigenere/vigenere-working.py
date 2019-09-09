@@ -1,11 +1,12 @@
-# CH18 Example
-#
+# John Cox
+# CS 585 - Project 1
 # vigenere-working.py
 #
 # v1.0
 #
 # Both encrypt() and decrypt() functions work on strings of variable size.
-# Troubleshooting output remains in the code.  Should it be removed?
+# Troubleshooting output remains in the code.  Is there a requirement to
+# remove more characters than just spaces such as commas and quotes?
 #
 # Demonstrate the Vigenere cipher on an input string and display its output.
 # Program must encrypt and decrypt strings of variable length
