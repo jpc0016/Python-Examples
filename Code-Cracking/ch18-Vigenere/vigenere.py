@@ -2,7 +2,7 @@
 # CS 585 - Project 1
 # vigenere.py
 #
-# v1.0 rev Draft
+# v1.1 rev Draft
 #
 # Demonstrate the Vigenere cipher on an input string and display its output.
 # Program must encrypt and decrypt strings of variable length
@@ -10,12 +10,15 @@
 # Initialize character key dictionary to be used in encryption and decryption
 character_key = {'A': 0, 'B': 1,'C': 2,'D': 3,'E': 4,'F': 5,'G': 6,'H': 7,'I': 8,'J': 9,'K': 10,'L': 11,'M': 12,'N': 13,'O': 14,'P': 15,'Q': 16,'R': 17,'S': 18,'T': 19,'U': 20,'V': 21,'W': 22,'X': 23,'Y': 24,'Z': 25,}
 
-# Read input string and vigenere keyplaintext and remove spaces
-plaintext = input("Enter the plaintext string to encrypt: ")
-plaintext = plaintext.replace(" ", "")
+# Read input string and vigenere keyplaintext and remove numbers, spaces, and
+# special characters
+in_plaintext = input("Enter the plaintext string to encrypt: ")
+char_plaintext = ''.join(e for e in in_plaintext if e.isalnum())
+plaintext = ''.join(f for f in char_plaintext if not f.isdigit())
 
-vigenere = input("Enter the vigenere key: ")
-vigenere = vigenere.replace(" ", "")
+in_vigenere = input("Enter the vigenere key: ")
+char_vigenere = ''.join(m for m in in_vigenere if m.isalnum())
+vigenere = ''.join(n for n in char_vigenere if not n.isdigit())
 
 
 print("\n####################################")
@@ -45,18 +48,12 @@ def encrypt(plaintext, vigenere):
 
 
     len_plain = len(plain_keys)
-    # 5
     len_vig = len(vigenere_keys)
-    # 3
     mod = len_plain % len_vig
-    # 2
-
-    # (len_plain - mod) / len_vig = number of iterations to fill vigenere_keys
 
     # Extend vigenere_keys to match plain_keys in length.  Check if
     # vigenere_keys is shorter than plain_keys
     if len_vig < len_plain:
-        # (5 - 2) / 3 = 3/3 = 1
         iterations =  (len_plain - mod) / len_vig
         for iter in range(0, int(iterations)):
             for j in range(0, len_vig):
@@ -66,7 +63,7 @@ def encrypt(plaintext, vigenere):
                     vigenere_keys.append(vigenere_keys[j])
 
 
-    # Add the elements of each array together and mod 26.  If len(vigenere) is
+    # Add elements of each array together and mod 26.  If len(vigenere) is
     # less than len(plaintext), restart at begining of key.  If len(vigenere)
     # is greater than len(plaintext), stop at end of plaintext
     # Result is encrypted_numbers list
@@ -80,11 +77,8 @@ def encrypt(plaintext, vigenere):
     # empty string
     encrypted = ""
     for number in encrypted_numbers:
-        # for 22
         for key, value in character_key.items():
-            # for 'A':0 , 'B':1, ...
             if value == number:
-                # if 0 = 22
                 encrypted += key
     return encrypted
 
@@ -98,7 +92,6 @@ def decrypt(ciphertext, vigenere):
     # Enumerate characters of ciphertext and store in cipher_keys
     cipher_keys = []
     for char in ciphertext:
-        # use uppercase char
         cipher_key = character_key[char.upper()]
         cipher_keys.append(cipher_key)
 
@@ -110,18 +103,13 @@ def decrypt(ciphertext, vigenere):
         vigenere_keys.append(vigenere_key)
 
     len_cipher = len(cipher_keys)
-    # 5 (same as len(plain_keys))
     len_vig = len(vigenere_keys)
-    # 3
     mod = len_cipher % len_vig
-    # 2
 
-    # (len_cipher - mod) / len_vig = number of iterations to fill vigenere_keys
 
     # Extend vigenere_keys to match cipher_keys in length.  Check if
     # vigenere_keys is shorter than cipher_keys
     if len_vig < len_cipher:
-        # (5 - 2) / 3 = 3/3 = 1
         iterations =  (len_cipher - mod) / len_vig
         for iter in range(0, int(iterations)):
             for j in range(0, len_vig):
@@ -132,15 +120,14 @@ def decrypt(ciphertext, vigenere):
 
 
     # Subtract the elements of each array and mod 26
-    # Result is decrypted_numbers list
+    # Result is decrypted_numbers list. If-statement handles instance where
+    # cipher - key < 0
+    # Example: B:1 - F:5 = -4
     decrypted_numbers = []
     for i in range(0, len(cipher_keys)):
-        # Need to handle instance where cipher - key < 0
-        # Example: B:1 - F:5 = -4
         if (cipher_keys[i] - vigenere_keys[i] < 0):
             new = 26 - (vigenere_keys[i] - cipher_keys[i])
         else:
-            # W:22 - P:15 = H:7
             new = (cipher_keys[i] - vigenere_keys[i]) % 26
         decrypted_numbers.append(new)
 
@@ -148,27 +135,22 @@ def decrypt(ciphertext, vigenere):
     # empty string
     decrypted = ""
     for number in decrypted_numbers:
-        # for 22
         for key, value in character_key.items():
-            # for 'A':0 , 'B':1, ...
-            # print(key) # A
-            # print(value) # 0
             if value == number:
-                # if 0 = 22
                 decrypted += key
     return decrypted
 
 
 
 
-# Test encrypt() function
+# Encrypt plaintext string with key
 crypto = encrypt(plaintext, vigenere)
 print("\n####################################")
 print("\nEncrypted text: " + crypto)
 print("\n####################################")
 
-# Test decrypt() function
+# Decrypt output (ciphertext) from encrypt() using the same key
 plain = decrypt(crypto, vigenere)
-print("\n####################################")
+print("\n####################################")Test decrypt() function
 print("\nRecovered plaintext: " + plain)
 print("\n####################################")

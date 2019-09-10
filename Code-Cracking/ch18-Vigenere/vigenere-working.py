@@ -2,7 +2,7 @@
 # CS 585 - Project 1
 # vigenere-working.py
 #
-# v1.0
+# v1.1
 #
 # Both encrypt() and decrypt() functions work on strings of variable size.
 # Troubleshooting output remains in the code.  Is there a requirement to
@@ -14,12 +14,15 @@
 # Initialize character key dictionary to be used in encryption and decryption
 character_key = {'A': 0, 'B': 1,'C': 2,'D': 3,'E': 4,'F': 5,'G': 6,'H': 7,'I': 8,'J': 9,'K': 10,'L': 11,'M': 12,'N': 13,'O': 14,'P': 15,'Q': 16,'R': 17,'S': 18,'T': 19,'U': 20,'V': 21,'W': 22,'X': 23,'Y': 24,'Z': 25,}
 
-# Read input string and vigenere keyplaintext and remove spaces
-plaintext = input("Enter the plaintext string to encrypt: ")
-plaintext = plaintext.replace(" ", "")
+# Read input string and vigenere keyplaintext and remove numbers, spaces, and
+# special characters
+in_plaintext = input("Enter the plaintext string to encrypt: ")
+char_plaintext = ''.join(e for e in in_plaintext if e.isalnum())
+plaintext = ''.join(f for f in char_plaintext if not f.isdigit())
 # 'hello'
-vigenere = input("Enter the vigenere key: ")
-vigenere = vigenere.replace(" ", "")
+in_vigenere = input("Enter the vigenere key: ")
+char_vigenere = ''.join(m for m in in_vigenere if m.isalnum())
+vigenere = ''.join(n for n in char_vigenere if not n.isdigit())
 # 'dog'
 
 print("\n####################################")
