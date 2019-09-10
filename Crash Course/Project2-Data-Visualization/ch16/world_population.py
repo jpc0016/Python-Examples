@@ -5,6 +5,7 @@
 # Parsing JSON files
 # Analyzing global population
 import json
+from country_code import get_country_code
 
 # Load data into a list
 filename = 'data/global_population.json'
