@@ -155,6 +155,7 @@ for num in range(0, period):
 
     counts = frequency_analysis(groups[num], len(groups[num]))
 
+    print(counts)
     print("\nLargest sum: " + str(max(counts)))
     print(" ")
 

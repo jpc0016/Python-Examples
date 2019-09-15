@@ -151,6 +151,6 @@ print("\n####################################")
 
 # Decrypt output (ciphertext) from encrypt() using the same key
 plain = decrypt(crypto, vigenere)
-print("\n####################################")Test decrypt() function
+print("\n####################################")
 print("\nRecovered plaintext: " + plain)
 print("\n####################################")
