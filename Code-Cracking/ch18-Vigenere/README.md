@@ -2,8 +2,8 @@
 
 |     |     |
 |-----|-----|
-|**vigenere.py**|[![Version](https://img.shields.io/badge/version-1.1-blue)]()|
-|**cryptanalysis.py**|[![Version](https://img.shields.io/badge/version-1.0-orange)]()|
+|**vigenere.py**|[![Version](https://img.shields.io/badge/version-1.5-blue)]()|
+|**cryptanalysis.py**|[![Version](https://img.shields.io/badge/version-2.0-orange)]()|
 
 Create two programs. One program encrypts and decrypts messages using the Vigenère cipher.  The other program is to break the Vigenère cipher given a ciphertext and key period (length).
 
@@ -62,9 +62,11 @@ Your score on this assignment will include consideration of the correctness of y
 |  ------ | ------ | ------ |
 |  vigenere.py | 0.5 | Draft |  
 |   | 1.0 | Working encrypt() and decrypt() functions on variable length input. |
-|   | 1.1 | Add input validation for plaintext and key. Ensure numbers, spaces, and special characters are stripped. |   
+|   | 1.1 | Add input validation for plaintext and key. Ensure numbers, spaces, and special characters are stripped. |
+|   | 1.5 | Swapped key, values in character_key |  
 |  cryptanalysis.py | 0.5 | Draft |   
 |   | 1.0 | Working frequency_analysis() function on ciphertext and key length |  
+|   | 2.0 | Add plaintext recovery and comprehensive key checking |
 
 
 ## To Do

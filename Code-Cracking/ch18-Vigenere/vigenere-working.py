@@ -12,7 +12,8 @@
 # Program must encrypt and decrypt strings of variable length
 
 # Initialize character key dictionary to be used in encryption and decryption
-character_key = {'A': 0, 'B': 1,'C': 2,'D': 3,'E': 4,'F': 5,'G': 6,'H': 7,'I': 8,'J': 9,'K': 10,'L': 11,'M': 12,'N': 13,'O': 14,'P': 15,'Q': 16,'R': 17,'S': 18,'T': 19,'U': 20,'V': 21,'W': 22,'X': 23,'Y': 24,'Z': 25,}
+#character_key = {'A': 0, 'B': 1,'C': 2,'D': 3,'E': 4,'F': 5,'G': 6,'H': 7,'I': 8,'J': 9,'K': 10,'L': 11,'M': 12,'N': 13,'O': 14,'P': 15,'Q': 16,'R': 17,'S': 18,'T': 19,'U': 20,'V': 21,'W': 22,'X': 23,'Y': 24,'Z': 25,}
+character_key = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J', 10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O', 15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X', 24: 'Y', 25: 'Z'}
 
 # Read input string and vigenere keyplaintext and remove numbers, spaces, and
 # special characters
@@ -38,17 +39,30 @@ def encrypt(plaintext, vigenere):
 
     # Enumerate characters of plaintext and store in plain_keys
     plain_keys = []
+    # H, E, L, L, O
     for char in plaintext:
         # use uppercase char
-        plain_key = character_key[char.upper()]
-        plain_keys.append(plain_key)
+        for value, letter in character_key.items():
+            # if 'H' == 'A'
+            if char.upper() == letter:
+                plain_key = value
+                # print(plain_key)
+                plain_keys.append(plain_key)
+
+        # plain_key = character_key.value(char.upper())
+        # plain_keys.append(plain_key)
 
     # Enumerate characters of the key and store in vigenere_keys.  Enumerated
     # keys length should match plain_keys length
     vigenere_keys = []
+    # D, O, G
     for item in vigenere:
-        vigenere_key = character_key[item.upper()]
-        vigenere_keys.append(vigenere_key)
+        for value, letter in character_key.items():
+            # if 'D' == 'A'
+            if item.upper() == letter:
+                vigenere_key = value
+                print(vigenere_key)
+                vigenere_keys.append(vigenere_key)
 
     # Troubleshooting:
     # Show enumerated plaintext and key
@@ -98,20 +112,20 @@ def encrypt(plaintext, vigenere):
 
     print("\nEnumerated Plaintext + Key")
     print(encrypted_numbers)
-    # [22, 12, 10, 10, 14]
+    # [10, 18, 17, 14, 2]
 
     # Convert enumerated plaintext + key into ciphertext string. Initialize
     # empty string
     encrypted = ""
     for number in encrypted_numbers:
-        # for 22
+        # for 10
         for key, value in character_key.items():
-            # for 'A':0 , 'B':1, ...
+            # for 0: 'A' , 1: 'B', ...
             # print(key) # A
             # print(value) # 0
-            if value == number:
-                # if 0 = 22
-                encrypted += key
+            if key == number:
+                # if 0 = 10
+                encrypted += value
     return encrypted
 
 
@@ -125,15 +139,33 @@ def decrypt(ciphertext, vigenere):
     cipher_keys = []
     for char in ciphertext:
         # use uppercase char
-        cipher_key = character_key[char.upper()]
-        cipher_keys.append(cipher_key)
+        # KSROC
+        for value, letter in character_key.items():
+            # if 'K' == 'A'
+            if char.upper() == letter:
+                cipher_key = value
+                cipher_keys.append(cipher_key)
+
+
+        # cipher_key = character_key[char.upper()]
+        # cipher_keys.append(cipher_key)
 
 
     # Enumerate characters of the vigenere key
     vigenere_keys = []
     for item in vigenere:
-        vigenere_key = character_key[item.upper()]
-        vigenere_keys.append(vigenere_key)
+
+        for value, letter in character_key.items():
+            # if 'D' == 'A'
+            if item.upper() == letter:
+                vigenere_key = value
+                print(vigenere_key)
+                vigenere_keys.append(vigenere_key)
+
+
+
+        # vigenere_key = character_key[item.upper()]
+        # vigenere_keys.append(vigenere_key)
 
     len_cipher = len(cipher_keys)
     # 5 (same as len(plain_keys))
@@ -189,12 +221,12 @@ def decrypt(ciphertext, vigenere):
     for number in decrypted_numbers:
         # for 22
         for key, value in character_key.items():
-            # for 'A':0 , 'B':1, ...
+            # for 0: 'A' , 1: 'B', ...
             # print(key) # A
             # print(value) # 0
-            if value == number:
+            if key == number:
                 # if 0 = 22
-                decrypted += key
+                decrypted += value
     return decrypted
 
 
