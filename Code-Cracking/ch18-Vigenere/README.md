@@ -71,10 +71,4 @@ Your score on this assignment will include consideration of the correctness of y
 
 ## To Do
 
-* Screenshots of test cases.
-    * Add input validation in vigenere.py as a test case.
-
-
-* Place troubleshooting scripts in their own directory
-
 * Continue comment cleanup

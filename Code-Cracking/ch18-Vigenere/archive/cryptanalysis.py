@@ -1,18 +1,14 @@
 # John Cox
 # CS 585 - Project 1
-# cryptanalysis2.py
+# cryptanalysis.py
 #
-# v2.0 Draft
+# v1.5 rev Draft
 #
 # Crack a ciphertext encrypted with the Vigenere cipher.  Program must detect
-# patterns within the ciphertext.
+# patterns within the ciphertext
 
-import itertools
-from decrypt import *
 from collections import OrderedDict
 from itertools import islice, cycle
-import datetime
-import time
 
 # Initialize character key dictionary to be used in encryption and decryption
 character_key = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J', 10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O', 15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X', 24: 'Y', 25: 'Z'}
@@ -36,11 +32,9 @@ while True:
     try:
         input_period = input("Enter period of the Vigenere key: ")
         period = int(input_period)
-        clock_start = datetime.datetime.now()
-        cpu_start = time.process_time_ns()
     except ValueError:
         print("Period must be an integer!")
-        break
+        continue
     else:
         break
 
@@ -52,23 +46,24 @@ while True:
 groups = []
 
 # String splicing loop
-# value for each character in range 4, step over the string at an offset 'period'
+# Value for each character in range 4, step over the string at an offset 'period'
 for i in range(0, period):
     groups.append(cipherText[i: len(cipherText): period])
 
-# Print each text group
+# Troubleshooting print statements [GOOD]
 print(" ")
 for j in range(0, period):
     print(groups[j])
 print(" ")
 
-# Custom dictionary shift function
+# Custom dictionary shift function to move left each value to the adjacent key
 def shift_dict(dict, shift):
     shift %= len(dict)
     return OrderedDict(
         (k, v)
         for k, v in zip(dict.keys(), islice(cycle(dict.values()), shift, None))
     )
+
 
 # Create frequency analysis function.  Send each group of text through
 # function as input. Returns a list of 26 sums for each letter position in
@@ -85,9 +80,9 @@ def shift_dict(dict, shift):
 # OrderedDict([('B', 0.0789), ('C', 0.0), ('A', 0.0)])
 def frequency_analysis(text, totalCharacters):
     """
-    Count number of times a letter appears in the cipherText. This function returns
-    the most likely shift value for the key at a given index. The shift value
-    corresponds to a letter in character_key
+    Count number of times a letter appears in the cipherText. This function
+    returns the most likely shift value for the key at a given index. The
+    shift value corresponds to a letter in character_key
     """
     # Initialize frequency count
     letterCount = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0, 'G': 0, 'H': 0, 'I': 0, 'J': 0, 'K': 0, 'L': 0, 'M': 0, 'N': 0, 'O': 0, 'P': 0, 'Q': 0, 'R': 0, 'S': 0, 'T': 0, 'U': 0, 'V': 0, 'W': 0, 'X': 0, 'Y': 0, 'Z': 0}
@@ -100,7 +95,6 @@ def frequency_analysis(text, totalCharacters):
     for char in text:
         letterCount[char.upper()] += 1
 
-
     # Find letter frequency from letterCount.  Divide each letter by
     # total number of letters.  Round to 4 decimal places
     letterFrequency = OrderedDict()
@@ -112,9 +106,14 @@ def frequency_analysis(text, totalCharacters):
     # ('N', 0.0263), ('O', 0.0789), ('P', 0.0789), ('Q', 0.0263), ('R', 0.0789), ('S', 0.0), ('T', 0.0), ('U', 0.0789), ('V', 0.0263), ('W', 0.0263), ('X', 0.0263), ('Y', 0.0), ('Z', 0.0)])
 
     all_sums = []
-    # Multiply each letter of letterFrequency by englishFrequency and sum
+    # Now need to multiply each letter of letterFrequency by englishFrequency and sum
     # them all up.  Repeat this 26 times after shifting each entry of letterFrequency.
-    # Highest sum is the most likely character of the key
+    # Run initial test of sum without any shifting  [INITIAL TEST IS GOOD]
+    ####################
+    # WORKING ON SHIFTING DICTIONARY LEFT IN A LOOP 26 TIMES.  THIS WILL BE
+    # HANDLED IN AN OUTER LOOP FOR RANGE(0, 25).  SUM OF EACH DICTIONARY
+    # ROTATION IS STORED IN all_sums
+    ####################
     for number in range(0,26):
 
         sum = 0
@@ -130,110 +129,20 @@ def frequency_analysis(text, totalCharacters):
     return all_sums
 
 
+recovered_key = []
+
 # Implement all steps for each key character.  Loop from 0 to period
-list_of_top3 = []
 for num in range(0, period):
 
-    # Retrieve the list of all sums (all_sums)
     counts = frequency_analysis(groups[num], len(groups[num]))
-
-    # Sort list of sums from highest to lowest
-    sorted_sums = sorted(counts, reverse=True)
-
-    # Convert top 3 sums from numbers to letters and add to top_3 characters list
-    first_3 = sorted_sums[:3]
-    top_3 = []
-
-    for item in first_3:
-        top_3.append(character_key[counts.index(item)])
-
-    # Add top_3 characters list to total top 3 list.  This is a list of lists.
-    list_of_top3.append(top_3)
+    recovered_key.append(character_key[counts.index(max(counts))])
 
 
-
-# Check the list of top 3 sums for each letter position in the key
-print(" ")
-print("\nList of Top 3 Sums for each letter (list_of_top3): ")
-print(list_of_top3)
-
-# Use itertools.product()
-all_keys = list(itertools.product(*list_of_top3))
-
-joined_keys = []
-for key_list in all_keys:
-    key_attempt = ''.join(key_list)
-    joined_keys.append(key_attempt)
+key = ''.join(recovered_key)
+print("Recovered Key: " + key)
 
 
-
-# Brute force the ciphertext with each possible key in joined_keys
-# Open dictionary.txt for word search in each decrypted string
-# Initialize table of dictionary word counts (table_of_counts).  The index
-# with the highest count will return its corresponding recovered plaintext
-# indexed in plaintext_array
-filename = 'dictionary.txt'
-table_of_counts = []
-plaintext_array = []
-
-for attempt in joined_keys:
-
-    with open(filename) as f:
-        english_word_count = 0
-        words = f.read().splitlines()
-        # Call decrypt function from vigenere and add it to plaintext_array
-        plain = decrypt(cipherText, attempt)
-        plaintext_array.append(plain)
-
-        # Iterate over each word in dictionary.txt
-        # If the dictionary word is in the string, increment english_word_count
-        for word in words:
-            if plain.count(word) > 0:
-                english_word_count += 1
-
-        # Add total english word count to table when done searching all words
-        table_of_counts.append(english_word_count)
-        f.close()
-
-
-# Index the max count to retrieve proper plaintext
-print(table_of_counts.index(max(table_of_counts)))
-print("\n####################################")
-print("\nRecovered Plaintext: " + plaintext_array[table_of_counts.index(max(table_of_counts))])
-print("\nKey used: " + joined_keys[table_of_counts.index(max(table_of_counts))])
-print("\n####################################")
-
-# Calculate and display time differences
-clock_end = datetime.datetime.now()
-time_diff = clock_end - clock_start
-cpu_end = time.process_time_ns()
-cpu_delta = cpu_end - cpu_start
-
-print("\nWall clock start time: ", clock_start)
-print("Wall clock end time: ", clock_end)
-print("Wall clock difference: ", time_diff)
-
-print("\nCPU start time (ns): ", cpu_start)
-print("CPU end time (ns): ", cpu_end)
-print("Processing time: ", cpu_delta)
-
-    #         if english_word_count > 3:
-    #             print("\n####################################")
-    #             print("\nRecovered Plaintext: " + plain)
-    #             print("\n####################################")
-    #             break
-    #         else:
-    #             # check plaintext for occurance of word
-    #             if plain.count(word) > 0:
-    #                 #print(word)
-    #                 english_word_count += 1
-    #             continue
-    #
-    #         # Break for loop when all words are attempted
-    #         break
-    #     f.close()
-    #
-    # if english_word_count > 3:
-    #     break
-    # else:
-    #     continue
+# may need to call decrypt() function in vigenere-master and pass cipherText and
+# most likely keys.  This would be done to brute force each possible key. Will need
+# to import it: from vigenere import decrypt
+# decrypt(cipherText, key)

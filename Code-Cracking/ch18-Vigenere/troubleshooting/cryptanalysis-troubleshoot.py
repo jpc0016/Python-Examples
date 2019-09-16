@@ -226,7 +226,7 @@ print(" ")
 # Open dictionary.txt for word search in each decrypted string
 # Initialize table of dictionary word counts.  The index with the highest count
 # will return its corresponding recovered plaintext indexed in plaintext_array
-filename = 'dictionary.txt'
+filename = 'doc/dictionary.txt'
 table_of_counts = []
 plaintext_array = []
 for attempt in joined_keys:

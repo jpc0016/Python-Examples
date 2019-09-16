@@ -1,15 +1,15 @@
 # John Cox
 # CS 585 - Project 1
-# vigenere2.py
+# vigenere-troubleshoot.py
 #
-# v1.1
+# v1.5
 #
+# UPDATE:
 # Latest working copy of encryption/decryption.  Fixed character_key to have
 # ordered integers as keys instead of values
 #
 # Both encrypt() and decrypt() functions work on strings of variable size.
-# Troubleshooting output remains in the code.  Is there a requirement to
-# remove more characters than just spaces such as commas and quotes?
+# Troubleshooting output remains in the code.
 #
 # Demonstrate the Vigenere cipher on an input string and display its output.
 # Program must encrypt and decrypt strings of variable length
@@ -162,7 +162,7 @@ def decrypt(ciphertext, vigenere):
             # if 'D' == 'A'
             if item.upper() == letter:
                 vigenere_key = value
-                #print(vigenere_key)
+                print(vigenere_key)
                 vigenere_keys.append(vigenere_key)
 
 
