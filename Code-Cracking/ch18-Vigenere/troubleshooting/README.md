@@ -5,4 +5,4 @@ being troubleshoot scripts contain more verbose comments and print statements to
 
 ### Note
 
-Move cryptanalysis-troubleshooting.py up one folder to properly access the dictionary file in `/doc/dictionary.txt`
+Move cryptanalysis-troubleshooting.py up one folder to properly access the dictionary file in `doc/dictionary.txt` and the decrypt function from decrypt.py
