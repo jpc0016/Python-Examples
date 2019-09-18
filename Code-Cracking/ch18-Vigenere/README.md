@@ -69,5 +69,31 @@ Your score on this assignment will include consideration of the correctness of y
 |   | 2.0 | Add plaintext recovery and comprehensive key checking. |
 |   | 2.1 | Add ciphertext input validation. Clean comments. |
 
+## Directory Structure
+
+```shell
+┌── vigenere.py             : encrypt/decrypt script [FINAL]
+|
+┌── cryptanalysis.py        : key and plaintext recovery script [FINAL]
+|
+┌── decrypt.py              : imported decrypt function to cryptanalysis.py
+|
+┌── archive                 : previous working versions
+│   ├── cryptanalysis1-5.py
+│   └── vigenere1-1.py
+|
+├──  doc
+|    ├── Test_Cases.odt     : Test case report   
+|    └── dictionary.txt     : Dictionary words used in cryptanalysis.py
+|
+├──  photo                  : Raw screenshots of test cases
+|
+├──  troubleshooting        : testing versions of vigenere.py and cryptanalysis.py
+|    ├── README.md       
+|    ├── cryptanalysis-troubleshooting.py
+|    └── vigenere-troubleshooting.py     
+|
+└── __pycache__             : Python3 bytecode cache files for imports
+```
 
 ## To Do
