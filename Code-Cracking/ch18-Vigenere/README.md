@@ -1,6 +1,6 @@
 # Vigenère Cipher
 
-|     |     |
+| Main Scripts    | Version    |
 |-----|-----|
 |**vigenere.py**|[![Version](https://img.shields.io/badge/version-1.2-blue)]()|
 |**cryptanalysis.py**|[![Version](https://img.shields.io/badge/version-2.1-orange)]()|
@@ -63,11 +63,11 @@ Your score on this assignment will include consideration of the correctness of y
 |  vigenere.py | 0.5 | Draft |  
 |   | 1.0 | Working encrypt() and decrypt() functions on variable length input. |
 |   | 1.1 | Add input validation for plaintext and key. Ensure numbers, spaces, and special characters are stripped. |
-|   | 1.2 | Swapped key, values in character_key |  
+|   | 1.2 | Swapped key, values in character_key. Clean comments. |  
 |  cryptanalysis.py | 0.5 | Draft |   
-|   | 1.0 | Working frequency_analysis() function on ciphertext and key length |  
-|   | 2.0 | Add plaintext recovery and comprehensive key checking |
-|   | 2.1 | Add ciphertext input validation |
+|   | 1.0 | Working frequency_analysis() function on ciphertext and key length. |  
+|   | 2.0 | Add plaintext recovery and comprehensive key checking. |
+|   | 2.1 | Add ciphertext input validation. Clean comments. |
 
 
 ## To Do
