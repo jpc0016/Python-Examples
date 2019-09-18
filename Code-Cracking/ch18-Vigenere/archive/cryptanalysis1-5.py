@@ -1,6 +1,6 @@
 # John Cox
 # CS 585 - Project 1
-# cryptanalysis.py
+# cryptanalysis1-5.py
 #
 # v1.5 rev Draft
 #

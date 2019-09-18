@@ -2,7 +2,7 @@
 # CS 585 - Project 1
 # cryptanalysis-troubleshoot.py
 #
-# v2.0 Draft
+# v2.1 Draft
 #
 # Crack a ciphertext encrypted with the Vigenere cipher.  Program must detect
 # patterns within the ciphertext.
@@ -33,22 +33,30 @@ Plaintext:
 Key: 'stun'
 """
 
-# Prompt for cipherText
-cipherText = input("Enter the ciphertext: ")
+# Prompt for cipherText and ensure it only contains characters.
+in_cipherText = input("\nEnter the ciphertext: ")
+char_cipherText = ''.join(e for e in in_cipherText if e.isalnum())
+cipherText = ''.join(f for f in char_cipherText if not f.isdigit())
+
+print("Sanitized ciphertext: " + cipherText)
 
 # Prompt for period and check for correct type.  If incorrect type, continue
 # to beginning of while loop.  If correct type, break loop.
 while True:
     try:
-        input_period = input("Enter period of the Vigenere key: ")
+        input_period = input("\nEnter period of the Vigenere key: ")
+        print("\nInput period: " + str(input_period))
         period = int(input_period)
-        clock_start = datetime.datetime.now()
-        cpu_start = time.process_time_ns()
+        print("\nInput period: " + str(input_period))
     except ValueError:
         print("Period must be an integer!")
-        break
+        continue
     else:
         break
+
+# Start wall clock and CPU clock
+clock_start = datetime.datetime.now()
+cpu_start = time.process_time_ns()
 
 # Analyze cipherText given the period of a key. Period is the key length
 # Split cipherText into strings of key index.  There will be n number of groups

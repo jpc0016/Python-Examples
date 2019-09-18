@@ -2,7 +2,7 @@
 # CS 585 - Project 1
 # cryptanalysis.py
 #
-# v2.0 Draft
+# v2.1 Final
 #
 # Crack a ciphertext encrypted with the Vigenere cipher.  Program must detect
 # patterns within the ciphertext.
@@ -27,8 +27,10 @@ Plaintext:
 Key: 'stun'
 """
 
-# Prompt for cipherText
-cipherText = input("Enter the ciphertext: ")
+# Prompt for cipherText and ensure it only contains characters.
+in_cipherText = input("\nEnter the ciphertext: ")
+char_cipherText = ''.join(e for e in in_cipherText if e.isalnum())
+cipherText = ''.join(f for f in char_cipherText if not f.isdigit())
 
 # Prompt for period and check for correct type.  If incorrect type, continue
 # to beginning of while loop.  If correct type, break loop.
@@ -36,13 +38,15 @@ while True:
     try:
         input_period = input("Enter period of the Vigenere key: ")
         period = int(input_period)
-        clock_start = datetime.datetime.now()
-        cpu_start = time.process_time_ns()
     except ValueError:
         print("Period must be an integer!")
-        break
+        continue
     else:
         break
+
+# Start wall clock and CPU clock
+clock_start = datetime.datetime.now()
+cpu_start = time.process_time_ns()
 
 # Analyze cipherText given the period of a key. Period is the key length
 # Split cipherText into strings of key index.  There will be n number of groups
@@ -52,7 +56,7 @@ while True:
 groups = []
 
 # String splicing loop
-# value for each character in range 4, step over the string at an offset 'period'
+# value for each character in range, step over the string at an offset 'period'
 for i in range(0, period):
     groups.append(cipherText[i: len(cipherText): period])
 
@@ -107,14 +111,14 @@ def frequency_analysis(text, totalCharacters):
     for key, value in letterCount.items():
         letterFrequency[key] = round((value/totalCharacters), 4)
 
-    # letterFrequency:
+    # letterFrequency format:
     # OrderedDict([('A', 0.0), ('B', 0.0789), ('C', 0.0), ('D', 0.0526), ('E', 0.0526), ('F', 0.0263), ('G', 0.0263), ('H', 0.1053), ('I', 0.0), ('J', 0.0263), ('K', 0.1053), ('L', 0.0789), ('M', 0.0),
     # ('N', 0.0263), ('O', 0.0789), ('P', 0.0789), ('Q', 0.0263), ('R', 0.0789), ('S', 0.0), ('T', 0.0), ('U', 0.0789), ('V', 0.0263), ('W', 0.0263), ('X', 0.0263), ('Y', 0.0), ('Z', 0.0)])
 
-    all_sums = []
     # Multiply each letter of letterFrequency by englishFrequency and sum
     # them all up.  Repeat this 26 times after shifting each entry of letterFrequency.
     # Highest sum is the most likely character of the key
+    all_sums = []
     for number in range(0,26):
 
         sum = 0
@@ -130,6 +134,9 @@ def frequency_analysis(text, totalCharacters):
     return all_sums
 
 
+# This loop creates an array of lists of the top 3 sums of each key character
+# Example: [[A,B,C], [D,E,F], [G,H,I]] for a key length/period of 3
+#
 # Implement all steps for each key character.  Loop from 0 to period
 list_of_top3 = []
 for num in range(0, period):
@@ -140,10 +147,11 @@ for num in range(0, period):
     # Sort list of sums from highest to lowest
     sorted_sums = sorted(counts, reverse=True)
 
-    # Convert top 3 sums from numbers to letters and add to top_3 characters list
+    # Take the highest 3 sums from the sorted list
     first_3 = sorted_sums[:3]
     top_3 = []
 
+    # Convert top 3 sums from numbers to letters and add to top_3 characters list
     for item in first_3:
         top_3.append(character_key[counts.index(item)])
 
@@ -158,9 +166,11 @@ print("\nList of Top 3 Sums for each letter (list_of_top3): ")
 print(list_of_top3)
 print(" ")
 
-# Use itertools.product()
+# Use itertools.product() to make all possible key combinations of the top 3
+# letters
 all_keys = list(itertools.product(*list_of_top3))
 
+# Convert each array of characters in all_keys to strings
 joined_keys = []
 for key_list in all_keys:
     key_attempt = ''.join(key_list)
@@ -172,7 +182,8 @@ for key_list in all_keys:
 # Open dictionary.txt for word search in each decrypted string
 # Initialize table of dictionary word counts (table_of_counts).  The index
 # with the highest count will return its corresponding recovered plaintext
-# indexed in plaintext_array
+# indexed in plaintext_array. The plaintext_array will be referenced when
+# printing the solution
 filename = 'doc/dictionary.txt'
 table_of_counts = []
 plaintext_array = []
@@ -182,6 +193,7 @@ for attempt in joined_keys:
     with open(filename) as f:
         english_word_count = 0
         words = f.read().splitlines()
+
         # Call decrypt function from vigenere and add it to plaintext_array
         plain = decrypt(cipherText, attempt)
         plaintext_array.append(plain)
@@ -197,8 +209,10 @@ for attempt in joined_keys:
         f.close()
 
 
-# Index the max count to retrieve proper plaintext
+# Show index of max English word count to retrieve proper plaintext
 print(table_of_counts.index(max(table_of_counts)))
+
+# Display recovered plaintext and key used
 print("\n####################################")
 print("\nRecovered Plaintext: " + plaintext_array[table_of_counts.index(max(table_of_counts))])
 print("\nKey used: " + joined_keys[table_of_counts.index(max(table_of_counts))])

@@ -2,7 +2,7 @@
 # CS 585 - Project 1
 # vigenere.py
 #
-# v1.5 Final
+# v1.2 Final
 #
 # Demonstrate the Vigenere cipher on an input string and display its output.
 # Program must encrypt and decrypt strings of variable length
